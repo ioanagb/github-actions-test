@@ -1,0 +1,14 @@
+name: Shell Commands
+
+on: [push]
+
+jobs:
+  run-shell-command:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo s string
+        run: echo "Ioana, you are fabulous!"
+      - name: nultiline script
+        run: |
+          node -v
+          npm -v
