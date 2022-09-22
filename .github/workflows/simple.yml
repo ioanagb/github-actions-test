@@ -6,9 +6,14 @@ jobs:
   run-shell-command:
     runs-on: ubuntu-latest
     steps:
-      - name: echo s string
+      - name: echo a string
         run: echo "Ioana, you are fabulous!"
-      - name: nultiline script
+      - name: multiline script
         run: |
           node -v
           npm -v
+      - name: python command
+        run: |
+          import platform
+          print(platform.processor())
+        shell: python
