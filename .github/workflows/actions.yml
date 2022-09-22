@@ -10,6 +10,8 @@ jobs:
         run: |
           pwd
           ls
+      - name: Checkout
+        uses: actions/checkout@v1  # actions checkout, checkouts in my repo, a single commit; practic duce versiunea aia in VM unde ruleaza wf
       - name: Simple JS Actions
         id: greet
         uses: actions/hello-world-javascript-action@v1  # after @ we can add a verions, a branch or a commit
