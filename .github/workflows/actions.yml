@@ -1,17 +1,48 @@
 name: Actions Workflow
 
-on: [push]
+on: 
+  push:
+    # branches-ignore:  # branches and branches ignore can not be used together, but we can exclud some branches
+    branches:
+      - master
+      - 'feature/*'  # matches branches feature/featA, feature/featB; will not match feature/a
+      - 'feature/**'  # will match feature/a as well
+      - '!feature/featC'  # this is how you can exclude a branch, it has to go at the end
+    tags:
+      - v1.*
+    paths:
+      - '**.js'  # if it's just one star, it doesn't match a string containig /
+    # paths-ignore:
+      # - "docs/**"
+
+  #[push]  # here we can have anything that can be an event on github
+  # schedule:
+    # - cron: "0/5 * * * *"
+    # - cron: "0/6 * * * *"  # note that you can have multiple crons for a wf
+  # push:
+  # repository_dispatch:
+    # types: [build]  # you can send a post request with a body consisting in a json {"event_type":"build"}
+    # you can send a req with a payload as well: {"event_type":"build", "client_payload": {"env":"production"}}
+    # client_payloadis availabla within the github object. see payload step
+  # pull_request:
+    # types: [closed, assigned, opened, reopened]
 
 jobs:
   run-github-actions:
     runs-on: ubuntu-latest
     steps:
+      - name: payload
+        run: echo ${{github.event.client_payload.env}}
       - name: List files
         run: |
           pwd
           ls
       - name: Checkout
-        uses: actions/checkout@v1  # actions checkout, checkouts in my repo, a single commit; practic duce versiunea aia in VM unde ruleaza wf
+        uses: actions/checkout@v1  # actions checkout, checkouts in my repo, a single commit; practic duce versiunea aia in VM unde ruleaza wf; the commit to checkout to can be given as a input param
+      - name: List files After Checkout
+        run: |
+          pwd
+          ls
       - name: Simple JS Actions
         id: greet
         uses: actions/hello-world-javascript-action@v1  # after @ we can add a verions, a branch or a commit
